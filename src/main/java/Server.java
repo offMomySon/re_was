@@ -1,7 +1,6 @@
-import Util.IoUtil;
+import http.HttpRequest;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
@@ -35,14 +34,10 @@ public class Server {
                  InputStream inputStream = socket.getInputStream()) {
 
                 String hostAddress = socket.getInetAddress().getHostAddress();
+                log.info("New Client Connect! Connected IP : {}, Port : {}}", hostAddress, socket.getPort());
 
-                log.info("Get connection, address = {}", hostAddress);
-
-                BufferedReader reader = IoUtil.createReader(inputStream);
-
-                String header = reader.readLine();
-
-                log.info("header = {}" + header);
+                String resourceTarget = HttpRequest.create(inputStream).getHttpStartLine().getResourceTarget();
+                log.info("Resource Target = {}", resourceTarget);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
