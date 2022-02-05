@@ -2,6 +2,7 @@ package config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import util.IoUtil;
@@ -11,8 +12,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Slf4j
+@Getter
 public class EntryPointConfig {
     private static final String path = "src/main/resources/config/entry_point.json";
+
+    private static EntryPointConfig entryPointConfig = getInstance();
 
     private final int port;
     private final Path welcomePagePath;
@@ -44,5 +48,12 @@ public class EntryPointConfig {
 
     public static EntryPointConfig create() {
         return ConfigCreator.from(EntryPointConfig.class, path);
+    }
+
+    public static EntryPointConfig getInstance() {
+        if (entryPointConfig == null) {
+            return entryPointConfig = create();
+        }
+        return entryPointConfig;
     }
 }

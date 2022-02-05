@@ -1,6 +1,6 @@
 public class App {
     public static void main(String[] args) {
-        Server server = new Server();
+        Server server = Server.create();
         server.start();
     }
 }
