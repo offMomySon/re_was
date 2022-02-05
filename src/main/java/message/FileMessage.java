@@ -5,6 +5,7 @@ import util.IoUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.nio.file.Path;
 
 public class FileMessage extends Message {
     private static final int READ_NOT_THING = 0;
@@ -16,23 +17,21 @@ public class FileMessage extends Message {
         this.file = file;
     }
 
-    public static FileMessage create(@NonNull String path) {
-        return new FileMessage(new File(path));
+    public static FileMessage from(@NonNull Path target) {
+        return new FileMessage(target.toFile());
     }
 
     @Override
     public String create() {
-        StringBuilder sb = new StringBuilder();
-
         try (BufferedReader reader = IoUtil.createReader(file)) {
             int readNo = READ_NOT_THING;
             while ((readNo = reader.read(buffer)) > READ_NOT_THING) {
-                sb.append(new String(buffer, 0, readNo));
+                content.append(new String(buffer, 0, readNo));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        return sb.toString();
+        return content.toString();
     }
 }

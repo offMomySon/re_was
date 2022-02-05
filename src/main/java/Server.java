@@ -1,8 +1,13 @@
+import config.DownloadConfig;
 import config.EntryPointConfig;
 import http.HttpRequest;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import message.SimpleMessage;
+import message.Message;
+import message.ResourceMessageCreator;
+import message.factory.CompositeMessageFactory;
+import message.factory.MessageFactory;
+import message.factory.ResourceMessageFactory;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -10,7 +15,10 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Function;
 
 @Slf4j
 public class Server {
@@ -38,6 +46,9 @@ public class Server {
     }
 
     public void start() {
+        Function<ResourceMessageCreator, MessageFactory> workerFactoryCreator = resourceMessageCreator -> new CompositeMessageFactory(List.of(
+                ResourceMessageFactory.from(resourceMessageCreator))
+        );
 
         while (true) {
             log.info("Waiting connection... {}");
@@ -48,12 +59,19 @@ public class Server {
                 String hostAddress = socket.getInetAddress().getHostAddress();
                 log.info("New Client Connect! Connected IP : {}, Port : {}}", hostAddress, socket.getPort());
 
-                String target = HttpRequest.create(inputStream).getHttpStartLine().getTarget();
+                Path target = HttpRequest.create(inputStream).getHttpStartLine().getTarget();
                 log.info("Target = {}", target);
 
-                SimpleMessage simpleMessage = new SimpleMessage("Test Simple message");
+                ResourceMessageCreator resourceMessageCreator = ResourceMessageCreator.from(
+                        DownloadConfig.getInstance().getDownloadPath(),
+                        EntryPointConfig.getInstance().getWelcomePagePath(),
+                        target);
 
-                sendResponse(simpleMessage.create(), socket);
+                MessageFactory workerMessageFactory = workerFactoryCreator.apply(resourceMessageCreator);
+
+                Message message = workerMessageFactory.createMessage();
+
+                sendResponse(message.create(), socket);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
