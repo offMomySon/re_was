@@ -30,8 +30,8 @@ public class EntryPointConfig {
     }
 
     @JsonCreator
-    public static EntryPointConfig ofJackson(@JsonProperty("port") int port,
-                                             @JsonProperty("welcomePagePath") @NonNull String welcomePagePath) {
+    private static EntryPointConfig ofJackson(@JsonProperty("port") int port,
+                                              @JsonProperty("welcomePagePath") @NonNull String welcomePagePath) {
         Path path = PathUtil.removeRelativePath(Paths.get(welcomePagePath));
         return new EntryPointConfig(port, path);
     }
@@ -46,7 +46,7 @@ public class EntryPointConfig {
         return port;
     }
 
-    public static EntryPointConfig create() {
+    private static EntryPointConfig create() {
         return ConfigCreator.from(EntryPointConfig.class, path);
     }
 

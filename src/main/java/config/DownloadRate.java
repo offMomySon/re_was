@@ -37,5 +37,4 @@ public class DownloadRate {
         }
         return count;
     }
-
 }

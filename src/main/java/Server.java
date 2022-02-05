@@ -1,6 +1,4 @@
-import config.DownloadConfig;
 import config.EntryPointConfig;
-import config.ThreadConfig;
 import http.HttpRequest;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -50,8 +48,8 @@ public class Server {
                 String hostAddress = socket.getInetAddress().getHostAddress();
                 log.info("New Client Connect! Connected IP : {}, Port : {}}", hostAddress, socket.getPort());
 
-                String resourceTarget = HttpRequest.create(inputStream).getHttpStartLine().getResourceTarget();
-                log.info("Resource Target = {}", resourceTarget);
+                String target = HttpRequest.create(inputStream).getHttpStartLine().getTarget();
+                log.info("Target = {}", target);
 
                 SimpleMessage simpleMessage = new SimpleMessage("Test Simple message");
 
@@ -77,7 +75,11 @@ public class Server {
     private static void sendResponse(String message, Socket socket) {
         StringBuilder responseBuilder = new StringBuilder();
 
-        String httpResponse = responseBuilder.append(createHeader(message.length())).append(message).append(END_OF_LINE).toString();
+        String httpResponse = responseBuilder
+                .append(createHeader(message.length()))
+                .append(message)
+                .append(END_OF_LINE)
+                .toString();
 
         try {
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
