@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import util.IoUtil;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 
 @Getter
@@ -26,12 +25,6 @@ public class HttpRequest {
         HttpStartLine httpStartLine = HttpStartLine.create(bufferedReader);
         HttpHeader httpHeader = HttpHeader.create(bufferedReader);
         HttpBody httpBody = HttpBody.create(bufferedReader, httpHeader.getContentLength());
-
-        try {
-            bufferedReader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         return new HttpRequest(httpStartLine, httpHeader, httpBody);
     }

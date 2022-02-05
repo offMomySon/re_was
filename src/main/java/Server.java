@@ -1,3 +1,6 @@
+import config.DownloadConfig;
+import config.EntryPointConfig;
+import config.ThreadConfig;
 import http.HttpRequest;
 import lombok.extern.slf4j.Slf4j;
 import message.SimpleMessage;
@@ -35,6 +38,10 @@ public class Server {
         while (true) {
             log.info("Waiting connection... {}");
 
+            EntryPointConfig entryPointConfig = EntryPointConfig.create();
+            DownloadConfig downloadConfig = DownloadConfig.create();
+            ThreadConfig threadConfig = ThreadConfig.create();
+
             try (Socket socket = serverSocket.accept();
                  InputStream inputStream = socket.getInputStream()) {
 
@@ -47,7 +54,7 @@ public class Server {
                 SimpleMessage simpleMessage = new SimpleMessage("Test Simple message");
 
                 sendResponse(simpleMessage.create(), socket);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
@@ -66,12 +73,11 @@ public class Server {
     }
 
     private static void sendResponse(String message, Socket socket) {
-        String header = createHeader(message.length());
+        StringBuilder responseBuilder = new StringBuilder();
 
-        String httpResponse = header + message + END_OF_LINE;
+        String httpResponse = responseBuilder.append(createHeader(message.length())).append(message).append(END_OF_LINE).toString();
 
         try {
-            log.info("Before send message");
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
             bufferedOutputStream.write(httpResponse.getBytes(StandardCharsets.UTF_8));
             bufferedOutputStream.flush();
@@ -79,5 +85,4 @@ public class Server {
             e.printStackTrace();
         }
     }
-
 }
