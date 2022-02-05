@@ -8,7 +8,6 @@ public class SimpleMessage extends Message {
     private final String message;
 
     public SimpleMessage(@NonNull String message) {
-
         this.message = message;
     }
 

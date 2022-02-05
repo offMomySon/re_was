@@ -15,6 +15,8 @@ import java.util.Set;
 public class DownloadConfig {
     private static final String path = "src/main/resources/config/download.json";
 
+    private static DownloadConfig downloadConfig = getInstance();
+
     private final Path downloadPath;
     private final DownloadRate downloadRate;
     private final Set<String> restrictedFileExtension;
@@ -45,7 +47,14 @@ public class DownloadConfig {
         return new DownloadConfig(path, downloadRate, restrictedFileExtension, downloadInfoAtIps);
     }
 
-    public static DownloadConfig create() {
+    private static DownloadConfig create() {
         return ConfigCreator.from(DownloadConfig.class, path);
+    }
+
+    public static DownloadConfig getInstance() {
+        if (downloadConfig == null) {
+            return downloadConfig = create();
+        }
+        return downloadConfig;
     }
 }

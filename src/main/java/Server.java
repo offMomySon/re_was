@@ -1,7 +1,6 @@
-import config.DownloadConfig;
 import config.EntryPointConfig;
-import config.ThreadConfig;
 import http.HttpRequest;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import message.SimpleMessage;
 
@@ -19,8 +18,13 @@ public class Server {
 
     private final ServerSocket serverSocket;
 
-    public Server() {
-        this.serverSocket = createServerSocket(4000);
+    private Server(@NonNull ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+    }
+
+    public static Server create() {
+        ServerSocket serverSocket = createServerSocket(EntryPointConfig.getInstance().getPort());
+        return new Server(serverSocket);
     }
 
     private static ServerSocket createServerSocket(int port) {
@@ -28,7 +32,7 @@ public class Server {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return serverSocket;
     }
@@ -38,18 +42,14 @@ public class Server {
         while (true) {
             log.info("Waiting connection... {}");
 
-            EntryPointConfig entryPointConfig = EntryPointConfig.create();
-            DownloadConfig downloadConfig = DownloadConfig.create();
-            ThreadConfig threadConfig = ThreadConfig.create();
-
             try (Socket socket = serverSocket.accept();
                  InputStream inputStream = socket.getInputStream()) {
 
                 String hostAddress = socket.getInetAddress().getHostAddress();
                 log.info("New Client Connect! Connected IP : {}, Port : {}}", hostAddress, socket.getPort());
 
-                String resourceTarget = HttpRequest.create(inputStream).getHttpStartLine().getResourceTarget();
-                log.info("Resource Target = {}", resourceTarget);
+                String target = HttpRequest.create(inputStream).getHttpStartLine().getTarget();
+                log.info("Target = {}", target);
 
                 SimpleMessage simpleMessage = new SimpleMessage("Test Simple message");
 
@@ -75,7 +75,11 @@ public class Server {
     private static void sendResponse(String message, Socket socket) {
         StringBuilder responseBuilder = new StringBuilder();
 
-        String httpResponse = responseBuilder.append(createHeader(message.length())).append(message).append(END_OF_LINE).toString();
+        String httpResponse = responseBuilder
+                .append(createHeader(message.length()))
+                .append(message)
+                .append(END_OF_LINE)
+                .toString();
 
         try {
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());

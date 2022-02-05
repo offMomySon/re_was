@@ -42,7 +42,7 @@ public class HttpStartLine {
         return new HttpStartLine(HttpMethod.parse(delimitedLine[0]), delimitedLine[1], delimitedLine[2]);
     }
 
-    public String getResourceTarget() {
+    public String getTarget() {
         return url;
     }
 }
