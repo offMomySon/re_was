@@ -1,8 +1,8 @@
 package http;
 
-import Util.IoUtil;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import util.IoUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -20,7 +20,6 @@ public class HttpRequest {
     }
 
     public static HttpRequest create(@NotNull InputStream inputStream) {
-
         BufferedReader bufferedReader = IoUtil.createReader(inputStream);
 
         HttpStartLine httpStartLine = HttpStartLine.create(bufferedReader);
