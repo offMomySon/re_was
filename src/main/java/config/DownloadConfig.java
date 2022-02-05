@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.Set;
 
 @Slf4j
+@Getter
 public class DownloadConfig {
     private static final String path = "src/main/resources/config/download.json";
 

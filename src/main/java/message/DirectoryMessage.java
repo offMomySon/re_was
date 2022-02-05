@@ -3,6 +3,7 @@ package message;
 import lombok.NonNull;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 public class DirectoryMessage extends Message {
@@ -12,17 +13,15 @@ public class DirectoryMessage extends Message {
         this.directory = directory;
     }
 
-    public static DirectoryMessage create(@NonNull String path) {
-        return new DirectoryMessage(new File(path));
+    public static DirectoryMessage from(@NonNull Path target) {
+        return new DirectoryMessage(target.toFile());
     }
 
     @Override
     public String create() {
-        StringBuilder fileNames = new StringBuilder();
-
         Arrays.stream(directory.listFiles())
-                .forEach(_file -> fileNames.append(fileNames.append(_file).append("</br>")));
+                .forEach(_file -> content.append(_file).append("</br>"));
 
-        return fileNames.toString();
+        return content.toString();
     }
 }

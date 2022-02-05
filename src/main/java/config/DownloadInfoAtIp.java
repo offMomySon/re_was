@@ -2,6 +2,7 @@ package config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Slf4j
 @ToString
+@Getter
 public class DownloadInfoAtIp {
     private final String ip;
     private final DownloadRate downloadRate;

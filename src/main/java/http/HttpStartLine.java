@@ -2,9 +2,12 @@ package http;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import util.PathUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Slf4j
 public class HttpStartLine {
@@ -13,16 +16,16 @@ public class HttpStartLine {
     private static final String UNBOUNDED = null;
 
     private final HttpMethod method;
-    private final String url;
+    private final Path target;
     private final String version;
 
-    private HttpStartLine(@NonNull HttpMethod method, @NonNull String url, @NonNull String version) {
+    private HttpStartLine(@NonNull HttpMethod method, @NonNull Path target, @NonNull String version) {
         this.method = method;
-        this.url = url;
+        this.target = target;
         this.version = version;
 
         log.info("method {}", this.method);
-        log.info("url {}", this.url);
+        log.info("url {}", this.target);
         log.info("version {}", this.version);
     }
 
@@ -39,10 +42,13 @@ public class HttpStartLine {
             throw new RuntimeException("HTTP START LINE spec 을 만족시키지 못합니다.");
         }
 
-        return new HttpStartLine(HttpMethod.parse(delimitedLine[0]), delimitedLine[1], delimitedLine[2]);
+        return new HttpStartLine(
+                HttpMethod.parse(delimitedLine[0]),
+                PathUtil.removeRelativePath(Paths.get(delimitedLine[1])),
+                delimitedLine[2]);
     }
 
-    public String getTarget() {
-        return url;
+    public Path getTarget() {
+        return target;
     }
 }
