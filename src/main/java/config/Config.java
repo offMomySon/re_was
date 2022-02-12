@@ -6,6 +6,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 
+// 책임 - 파일을 특정 class 로 만드는 책임.
+// 컨셉 - 범용적인 기능이라 config 에 관한 컨셉이라 말하기는 어려워 보인다.
 public class Config<T> {
     private static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 

@@ -1,9 +1,8 @@
-package http;
+package request;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.BufferedReader;
 import java.util.*;
 
 @Slf4j

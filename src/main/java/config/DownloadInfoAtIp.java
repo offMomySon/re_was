@@ -12,6 +12,8 @@ import java.util.Set;
 @Slf4j
 @ToString
 @Getter
+// 책임 - 데이터 성격.
+// 컨셉 - ip 의 설정 정보를 가진다.
 public class DownloadInfoAtIp {
     private final String ip;
     private final DownloadRate downloadRate;

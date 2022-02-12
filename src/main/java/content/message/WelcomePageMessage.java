@@ -18,7 +18,7 @@ public class WelcomePageMessage extends Message {
         content.append("usable thread count : ").append(threadConfig.getUsableThreadCount()).append("</br>");
         content.append("waitable thread count : ").append(threadConfig.getWaitableThreadCount()).append("</br>");
 
-        content.append("download path : ").append(downloadConfig.getRoot()).append("</br>");
+        content.append("root path : ").append(downloadConfig.getRootPath()).append("</br>");
         content.append("download count : ").append(downloadConfig.getDownloadRate().getCount()).append("</br>");
         content.append("download period : ").append(downloadConfig.getDownloadRate().getPeriod()).append("</br>");
         content.append("restricted file extension : ").append(downloadConfig.getRestrictedFileExtension()).append("</br>");

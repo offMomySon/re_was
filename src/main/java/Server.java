@@ -4,7 +4,7 @@ import content.factory.WelcomePageMessageFactory;
 import content.factory.resource.DirectoryMessageFactory;
 import content.factory.resource.FileMessageFactory;
 import content.factory.resource.NotFoundMessageFactory;
-import http.HttpRequest;
+import request.HttpRequest;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import content.message.Message;
@@ -21,9 +21,10 @@ import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 @Slf4j
+// 책임 - 사용자가 요청한 request 에 따라 적절한 response 를 해줘야한다.
+// 컨셉 - ?
 public class Server {
     private static final String END_OF_LINE = "\r\n";
 

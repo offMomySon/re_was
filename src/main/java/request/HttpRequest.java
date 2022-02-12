@@ -1,4 +1,4 @@
-package http;
+package request;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -75,7 +75,7 @@ public class HttpRequest {
             } catch (IOException e) {
                 throw new RuntimeException("body 를 읽어오지 못했습니다.");
             }
-            
+
             httpBody = httpBodyBuilder.build();
         }
 
