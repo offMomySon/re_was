@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class PathUtil {
 
-    public static Path removeRelativePath(Path requestTarget) {
+    public static Path normalizePath(Path requestTarget) {
         Stack<String> pathStack = new Stack<>();
         String[] splitPath = requestTarget.toString().split("/");
 
@@ -14,7 +14,6 @@ public class PathUtil {
             if (path.length() == 0) {
                 continue;
             }
-
             if (!path.equals("..")) {
                 pathStack.push(path);
                 continue;
@@ -23,9 +22,9 @@ public class PathUtil {
             if (pathStack.isEmpty()) {
                 throw new RuntimeException("상대경로를 벗어나면 안됩니다.");
             }
+
             pathStack.pop();
         }
-
-        return Paths.get("/" + String.join("/", pathStack));
+        return Paths.get("/", String.join("/", pathStack));
     }
 }

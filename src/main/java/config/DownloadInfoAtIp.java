@@ -18,7 +18,7 @@ public class DownloadInfoAtIp {
     private final Set<String> restrictedFileExtension;
 
     @JsonCreator
-    private DownloadInfoAtIp(@JsonProperty("ip") @NonNull String ip,
+    private DownloadInfoAtIp(@NonNull @JsonProperty("ip") String ip,
                              @JsonProperty("downloadRate") DownloadRate downloadRate,
                              @JsonProperty("restrictedFileExtension") Set<String> restrictedFileExtension) {
         this.ip = ip;

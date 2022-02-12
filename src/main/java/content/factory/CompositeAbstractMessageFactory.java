@@ -1,22 +1,22 @@
-package message.factory;
+package content.factory;
 
 import lombok.NonNull;
-import message.Message;
+import content.message.Message;
 
 import java.util.Collections;
 import java.util.List;
 
-public class CompositeMessageFactory implements MessageFactory {
-    private final List<MessageFactory> messageFactories;
+public class CompositeAbstractMessageFactory implements AbstractMessageFactory {
+    private final List<AbstractMessageFactory> messageFactories;
 
-    public CompositeMessageFactory(@NonNull List<MessageFactory> messageFactories) {
+    public CompositeAbstractMessageFactory(@NonNull List<AbstractMessageFactory> messageFactories) {
         this.messageFactories = Collections.unmodifiableList(messageFactories);
     }
 
     @Override
     public Message createMessage() {
         return messageFactories.stream()
-                .filter(MessageFactory::isSupport)
+                .filter(AbstractMessageFactory::isSupport)
                 .findFirst()
                 .map(m -> m.createMessage())
                 .orElseThrow();

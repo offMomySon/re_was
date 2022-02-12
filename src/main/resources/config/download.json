@@ -1,5 +1,5 @@
 {
-  "downloadPath": "/Users/jihunoh/IdeaProjects/was2/src/main/resources/files",
+  "root": "/Users/jihunoh/IdeaProjects/was2/src/main/resources/files",
   "downloadRate": {
     "period": 10000,
     "count": 2

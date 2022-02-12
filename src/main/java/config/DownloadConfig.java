@@ -16,46 +16,39 @@ import java.util.Set;
 public class DownloadConfig {
     private static final String path = "src/main/resources/config/download.json";
 
-    private static DownloadConfig downloadConfig = getInstance();
+    public static final DownloadConfig instance = create();
 
-    private final Path downloadPath;
+    private final Path root;
     private final DownloadRate downloadRate;
     private final Set<String> restrictedFileExtension;
     private final Set<DownloadInfoAtIp> downloadInfoAtIps;
 
-    private DownloadConfig(@NonNull Path downloadPath,
+    private DownloadConfig(@NonNull Path root,
                            DownloadRate downloadRate,
                            Set<String> restrictedFileExtension,
                            Set<DownloadInfoAtIp> downloadInfoAtIps) {
-        this.downloadPath = downloadPath;
+        this.root = root;
         this.downloadRate = downloadRate;
         this.restrictedFileExtension = restrictedFileExtension;
         this.downloadInfoAtIps = downloadInfoAtIps;
 
-        log.info("downloadPath = {}", downloadPath);
+        log.info("root = {}", root);
         log.info("downloadRate = {}", downloadRate);
         log.info("restrictedFileExtension = {}", restrictedFileExtension);
         log.info("downloadInfoAtIps = {}", downloadInfoAtIps);
     }
 
     @JsonCreator
-    private static DownloadConfig ofJackSon(@NonNull @JsonProperty("downloadPath") String downloadPath,
+    private static DownloadConfig ofJackSon(@NonNull @JsonProperty("root") String root,
                                             @JsonProperty("downloadRate") DownloadRate downloadRate,
                                             @JsonProperty("restrictedFileExtension") Set<String> restrictedFileExtension,
                                             @JsonProperty("downloadInfoAtIps") Set<DownloadInfoAtIp> downloadInfoAtIps) {
-        Path path = PathUtil.removeRelativePath(Paths.get(downloadPath));
+        Path path = PathUtil.normalizePath(Paths.get(root));
 
         return new DownloadConfig(path, downloadRate, restrictedFileExtension, downloadInfoAtIps);
     }
 
     private static DownloadConfig create() {
-        return ConfigCreator.from(DownloadConfig.class, path);
-    }
-
-    public static DownloadConfig getInstance() {
-        if (downloadConfig == null) {
-            return downloadConfig = create();
-        }
-        return downloadConfig;
+        return new Config<>(DownloadConfig.class, path).create();
     }
 }
