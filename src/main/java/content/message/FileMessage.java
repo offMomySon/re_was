@@ -1,5 +1,6 @@
-package message;
+package content.message;
 
+import content.TargetPath;
 import lombok.NonNull;
 import util.IoUtil;
 
@@ -17,7 +18,7 @@ public class FileMessage extends Message {
         this.file = file;
     }
 
-    public static FileMessage from(@NonNull Path target) {
+    public static FileMessage create(@NonNull TargetPath target) {
         return new FileMessage(target.toFile());
     }
 

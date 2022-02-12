@@ -14,10 +14,12 @@ public class IoUtil {
     }
 
     public static BufferedReader createReader(@NonNull File file) {
+        BufferedReader reader = null;
         try {
-            return new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+            reader = createReader(new FileInputStream(file));
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("file stream 생성을 실패 했습니다.");
         }
+        return reader;
     }
 }

@@ -5,11 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.w3c.dom.ranges.Range;
+
+import java.time.temporal.ValueRange;
 
 @Slf4j
 @ToString
 @Getter
 public class DownloadRate {
+    private static final ValueRange VALID_PERIOD_RANGE = ValueRange.of(1000, 1000000);
+    private static final ValueRange VALID_COUNT_RANGE = ValueRange.of(1, 10);
+
     private final int period;
     private final int count;
 
@@ -21,21 +27,15 @@ public class DownloadRate {
     }
 
     private int validatePeriod(int period) {
-        if (period < 1000) {
-            throw new RuntimeException("period 가 1000 ms 이상이 되야 합니다.");
-        }
-        if (period > 1000000) {
-            throw new RuntimeException("period 가 1000000 ms 이하가 되야 합니다.");
+        if (!VALID_PERIOD_RANGE.isValidIntValue(period)) {
+            throw new RuntimeException("period 가 범위내에 존재하지 않습니다.");
         }
         return period;
     }
 
     private int validateCount(int count) {
-        if (count < 1) {
-            throw new RuntimeException("count 가 1 이상이 되야 합니다.");
-        }
-        if (count > 10) {
-            throw new RuntimeException("count 가 10 이하가 되야 합니다.");
+        if (!VALID_COUNT_RANGE.isValidIntValue(count)) {
+            throw new RuntimeException("count 가 범위내에 존재하지 않습니다.");
         }
         return count;
     }

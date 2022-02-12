@@ -1,4 +1,4 @@
-package message;
+package content.message;
 
 public abstract class Message {
     protected StringBuilder content = new StringBuilder();

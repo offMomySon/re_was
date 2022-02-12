@@ -1,5 +1,6 @@
-package message;
+package content.message;
 
+import content.TargetPath;
 import lombok.NonNull;
 
 import java.io.File;
@@ -13,7 +14,7 @@ public class DirectoryMessage extends Message {
         this.directory = directory;
     }
 
-    public static DirectoryMessage from(@NonNull Path target) {
+    public static DirectoryMessage from(@NonNull TargetPath target) {
         return new DirectoryMessage(target.toFile());
     }
 

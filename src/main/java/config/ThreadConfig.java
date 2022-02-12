@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ThreadConfig {
     private static final String path = "src/main/resources/config/thread.json";
 
-    private static ThreadConfig threadConfig = getInstance();
+    public static final ThreadConfig instance = create();
 
     private final int usableThreadCount;
     private final int waitableThreadCount;
@@ -46,13 +46,6 @@ public class ThreadConfig {
     }
 
     private static ThreadConfig create() {
-        return ConfigCreator.from(ThreadConfig.class, path);
-    }
-
-    public static ThreadConfig getInstance() {
-        if (threadConfig == null) {
-            return threadConfig = create();
-        }
-        return threadConfig;
+        return new Config<>(ThreadConfig.class, path).create();
     }
 }
