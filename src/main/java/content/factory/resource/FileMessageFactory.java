@@ -5,9 +5,8 @@ import content.message.FileMessage;
 import content.message.Message;
 
 import java.io.File;
-import java.nio.file.Path;
 
-public class FileMessageFactory extends AbstractResourceMessageFactory {
+public class FileMessageFactory extends TargetPathMessageFactory {
     public FileMessageFactory(TargetPath target) {
         super(target);
     }

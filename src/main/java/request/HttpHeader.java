@@ -46,11 +46,10 @@ public class HttpHeader {
                 throw new RuntimeException("Key value 를 정상적으로 받지 못했습니다.");
             }
 
-            for (int i = 0; i < KEY_VALUE_SIZE; i++) {
-                keyValueSplit[i] = keyValueSplit[i].trim();
-            }
+            String key = keyValueSplit[0].trim();
+            String value = keyValueSplit[1].trim();
 
-            String key = keyValueSplit[0];
+
             String[] valueSplited = keyValueSplit[1].split(VALUE_DELIMITER);
 
             if (valueSplited.length <= 0) {
