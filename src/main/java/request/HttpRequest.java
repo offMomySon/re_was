@@ -51,7 +51,7 @@ public class HttpRequest {
 
         try {
             while ((header = reader.readLine()) != UNBOUNDED && !header.isEmpty()) {
-                httpHeaderBuilder.append(header);
+                httpHeaderBuilder.append(null);
             }
         } catch (IOException e) {
             throw new RuntimeException("header 를 읽어오지 못했습니다.");

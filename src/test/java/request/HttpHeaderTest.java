@@ -25,7 +25,7 @@ class HttpHeaderTest {
 //        Assertions.assertThat(httpHeader.getContentLength()).isSameAs(0);
         HttpHeader.Builder httpHeaderBuilder = new HttpHeader.Builder();
 
-        HttpHeader httpHeader = httpHeaderBuilder.append("testKey:testvalue").build();
+        HttpHeader httpHeader = httpHeaderBuilder.append(null).build();
 
         Assertions.assertThat(httpHeader.getContentLength()).isSameAs(0);
     }
