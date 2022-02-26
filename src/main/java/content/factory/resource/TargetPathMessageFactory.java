@@ -4,12 +4,10 @@ import content.TargetPath;
 import content.message.Message;
 import content.factory.AbstractMessageFactory;
 
-import java.nio.file.Path;
-
-public abstract class AbstractResourceMessageFactory implements AbstractMessageFactory {
+public abstract class TargetPathMessageFactory implements AbstractMessageFactory {
     private final TargetPath target;
 
-    public AbstractResourceMessageFactory(TargetPath target) {
+    public TargetPathMessageFactory(TargetPath target) {
         this.target = target;
     }
 

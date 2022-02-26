@@ -1,4 +1,4 @@
-package http;
+package request;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;

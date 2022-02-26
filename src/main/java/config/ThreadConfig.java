@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
+// 책임 - 데이터 성격.
+// 컨셉 - thread 횟수에 대한 데이터를 가진다.
 public class ThreadConfig {
     private static final String path = "src/main/resources/config/thread.json";
 

@@ -14,6 +14,8 @@ import java.time.temporal.ValueRange;
 
 @Slf4j
 @Getter
+// 책임 - 데이터 성격.
+// 컨셉 - 포트, 웰컴페이지 등 진입점 성격의 데이터를 가진다.
 public class EntryPointConfig {
     private static final String path = "src/main/resources/config/entry_point.json";
     private static final ValueRange VALID_PORT_RANGE = ValueRange.of(4000, 10000);

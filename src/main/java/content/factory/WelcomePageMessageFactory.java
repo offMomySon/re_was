@@ -8,10 +8,10 @@ import java.nio.file.Path;
 
 public class WelcomePageMessageFactory implements AbstractMessageFactory {
     private final Path welcomePage = EntryPointConfig.instance.getWelcomePage();
-    private final Path target;
+    private final Path request;
 
-    public WelcomePageMessageFactory(Path target) {
-        this.target = target;
+    public WelcomePageMessageFactory(Path request) {
+        this.request = request;
     }
 
     @Override
@@ -21,6 +21,6 @@ public class WelcomePageMessageFactory implements AbstractMessageFactory {
 
     @Override
     public boolean isSupport() {
-        return welcomePage.equals(target);
+        return welcomePage.equals(request);
     }
 }

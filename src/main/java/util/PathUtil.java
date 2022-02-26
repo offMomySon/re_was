@@ -6,16 +6,16 @@ import java.util.Stack;
 
 public class PathUtil {
 
-    public static Path normalizePath(Path requestTarget) {
+    public static Path normalizePath(Path path) {
         Stack<String> pathStack = new Stack<>();
-        String[] splitPath = requestTarget.toString().split("/");
+        String[] splitPath = path.toString().split("/");
 
-        for (String path : splitPath) {
-            if (path.length() == 0) {
+        for (String pathPart : splitPath) {
+            if (pathPart.length() == 0) {
                 continue;
             }
-            if (!path.equals("..")) {
-                pathStack.push(path);
+            if (!pathPart.equals("..")) {
+                pathStack.push(pathPart);
                 continue;
             }
 

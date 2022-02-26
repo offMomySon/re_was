@@ -12,6 +12,8 @@ import java.time.temporal.ValueRange;
 @Slf4j
 @ToString
 @Getter
+// 책임 - 데이터 성격.
+// 컨셉 - 다운로드 주기에 대한 설정 정보를 가진다.
 public class DownloadRate {
     private static final ValueRange VALID_PERIOD_RANGE = ValueRange.of(1000, 1000000);
     private static final ValueRange VALID_COUNT_RANGE = ValueRange.of(1, 10);

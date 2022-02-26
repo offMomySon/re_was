@@ -13,39 +13,33 @@ import java.util.Set;
 
 @Slf4j
 @Getter
+// TODO
+// 책임 - 데이터 성격
+// 컨셉 - 다운로드 설정에 대한 주기, 제한들에 대한 데이터 정보를 가진다..
 public class DownloadConfig {
     private static final String path = "src/main/resources/config/download.json";
 
     public static final DownloadConfig instance = create();
 
-    private final Path root;
+    private final RootPath rootPath;
     private final DownloadRate downloadRate;
     private final Set<String> restrictedFileExtension;
     private final Set<DownloadInfoAtIp> downloadInfoAtIps;
 
-    private DownloadConfig(@NonNull Path root,
-                           DownloadRate downloadRate,
-                           Set<String> restrictedFileExtension,
-                           Set<DownloadInfoAtIp> downloadInfoAtIps) {
-        this.root = root;
+    @JsonCreator
+    private DownloadConfig(@NonNull @JsonProperty("root") RootPath rootPath,
+                           @JsonProperty("downloadRate") DownloadRate downloadRate,
+                           @JsonProperty("restrictedFileExtension") Set<String> restrictedFileExtension,
+                           @JsonProperty("downloadInfoAtIps") Set<DownloadInfoAtIp> downloadInfoAtIps) {
+        this.rootPath = rootPath;
         this.downloadRate = downloadRate;
         this.restrictedFileExtension = restrictedFileExtension;
         this.downloadInfoAtIps = downloadInfoAtIps;
 
-        log.info("root = {}", root);
+        log.info("rootPath = {}", rootPath);
         log.info("downloadRate = {}", downloadRate);
         log.info("restrictedFileExtension = {}", restrictedFileExtension);
         log.info("downloadInfoAtIps = {}", downloadInfoAtIps);
-    }
-
-    @JsonCreator
-    private static DownloadConfig ofJackSon(@NonNull @JsonProperty("root") String root,
-                                            @JsonProperty("downloadRate") DownloadRate downloadRate,
-                                            @JsonProperty("restrictedFileExtension") Set<String> restrictedFileExtension,
-                                            @JsonProperty("downloadInfoAtIps") Set<DownloadInfoAtIp> downloadInfoAtIps) {
-        Path path = PathUtil.normalizePath(Paths.get(root));
-
-        return new DownloadConfig(path, downloadRate, restrictedFileExtension, downloadInfoAtIps);
     }
 
     private static DownloadConfig create() {
