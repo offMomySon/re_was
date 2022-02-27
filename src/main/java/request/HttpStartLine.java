@@ -3,11 +3,10 @@ package request;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import util.PathUtil;
+import util.Util;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -46,7 +45,7 @@ public class HttpStartLine {
         try {
             return new HttpStartLine(
                     HttpMethod.parse(method),
-                    PathUtil.normalizePath(Paths.get(target)),
+                    Util.normalizePath(Paths.get(target)),
                     version);
         } catch (Exception e) {
             throw new HttpStartLineException("생성 오류", e);
