@@ -7,6 +7,8 @@ import util.PathUtil;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Slf4j
 @ToString
@@ -18,7 +20,7 @@ public class HttpStartLine {
     private final Path request;
     private final String version;
 
-    private HttpStartLine(@NonNull HttpMethod method, @NonNull Path request, @NonNull String version) {
+    private HttpStartLine(HttpMethod method, @NonNull Path request, @NonNull String version) {
         this.method = method;
         this.request = request;
         this.version = version;
@@ -29,22 +31,41 @@ public class HttpStartLine {
     }
 
     public static HttpStartLine create(@NonNull String startLine) {
-        String[] delimitedLine = startLine.split(DELIMITER);
-        if (delimitedLine.length < HTTP_START_LINE_PART_SIZE) {
-            throw new RuntimeException("Http startLine spec 을 만족시키지 못합니다.");
+        String[] delimitedLine = startLine.trim().split(DELIMITER);
+
+        if (delimitedLine.length != HTTP_START_LINE_PART_SIZE) {
+            throw new HttpStartLineException("Http startLine spec 을 만족시키지 못합니다.");
         }
 
-        for (int i = 0; i < HTTP_START_LINE_PART_SIZE; i++) {
-            delimitedLine[i] = delimitedLine[i].trim();
-        }
+        String method = delimitedLine[0].trim();
+        String target = delimitedLine[1].trim();
+        String version = delimitedLine[2].trim();
 
-        return new HttpStartLine(
-                HttpMethod.parse(delimitedLine[0]),
-                PathUtil.normalizePath(Paths.get(delimitedLine[1])),
-                delimitedLine[2]);
+        // method검증 잘못돼면 httpStartLineException을 발생
+
+        try {
+            return new HttpStartLine(
+                    HttpMethod.parse(method),
+                    PathUtil.normalizePath(Paths.get(target)),
+                    version);
+        } catch (Exception e) {
+            throw new HttpStartLineException("생성 오류", e);
+        }
     }
 
     public Path getRequest() {
         return request;
+    }
+
+    private static <T> T nonException(Supplier<T> supplier) {
+        return nonException(supplier, "생성 오류");
+    }
+
+    private static <T> T nonException(Supplier<T> supplier, String exceptionMessage) {
+        try {
+            return supplier.get();
+        } catch (Exception e) {
+            throw new HttpStartLineException(exceptionMessage, e);
+        }
     }
 }
