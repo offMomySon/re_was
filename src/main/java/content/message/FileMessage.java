@@ -2,11 +2,10 @@ package content.message;
 
 import content.TargetPath;
 import lombok.NonNull;
-import util.IoUtil;
+import util.Util;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.nio.file.Path;
 
 public class FileMessage extends Message {
     private static final int READ_NOT_THING = 0;
@@ -24,7 +23,7 @@ public class FileMessage extends Message {
 
     @Override
     public String create() {
-        try (BufferedReader reader = IoUtil.createReader(file)) {
+        try (BufferedReader reader = Util.createReader(file)) {
             int readNo = READ_NOT_THING;
             while ((readNo = reader.read(buffer)) > READ_NOT_THING) {
                 content.append(new String(buffer, 0, readNo));

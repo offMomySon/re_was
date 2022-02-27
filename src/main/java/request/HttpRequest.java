@@ -3,7 +3,7 @@ package request;
 import lombok.Getter;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
-import util.IoUtil;
+import util.Util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class HttpRequest {
     }
 
     public static HttpRequest create(@NotNull InputStream inputStream) {
-        BufferedReader reader = IoUtil.createReader(inputStream);
+        BufferedReader reader = Util.createReader(inputStream);
 
         HttpStartLine httpStartLine = createHttpStartLine(reader);
         HttpHeader httpHeader = createHttpHeader(reader);

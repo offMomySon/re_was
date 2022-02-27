@@ -1,10 +1,9 @@
 package config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NonNull;
-import util.PathUtil;
+import util.Util;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +31,7 @@ public class RootPath {
 
     @JsonCreator
     private static RootPath ofJackSon(@NonNull String path) {
-        Path root = PathUtil.normalizePath(Paths.get(path));
+        Path root = Util.normalizePath(Paths.get(path));
 
         return new RootPath(root);
     }

@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Slf4j
 public enum HttpMethod {
@@ -20,12 +21,15 @@ public enum HttpMethod {
         this.value = value;
     }
 
-    public static HttpMethod parse(@NonNull String value) {
-        log.info("Http method = {}", value.toUpperCase());
+    public static HttpMethod parse(String method) {
+        String uppercaseMethodName = Optional.ofNullable(method).map(String::toUpperCase).orElseThrow(() -> new HttpMethodException("dsf"));
 
-        return Arrays.stream(values())
-                .filter(method -> method.value.equals(value.toUpperCase()))
+        HttpMethod httpMethod = Arrays.stream(HttpMethod.values())
+                .filter(_method -> _method.value.equals(uppercaseMethodName))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Http method 가 아닙니다."));
+                .orElseThrow(() -> new HttpMethodException("Http method 가 없습니다."));
+
+        log.info("Inserted Http method = {}", method.toUpperCase());
+        return httpMethod;
     }
 }

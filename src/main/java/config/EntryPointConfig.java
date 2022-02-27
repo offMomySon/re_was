@@ -5,9 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import util.PathUtil;
+import util.Util;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.temporal.ValueRange;
@@ -36,7 +35,7 @@ public class EntryPointConfig {
     @JsonCreator
     private static EntryPointConfig ofJackson(@JsonProperty("port") int port,
                                               @JsonProperty("welcomePagePath") @NonNull String welcomePagePath) {
-        Path path = PathUtil.normalizePath(Paths.get(welcomePagePath));
+        Path path = Util.normalizePath(Paths.get(welcomePagePath));
         return new EntryPointConfig(port, path);
     }
 
