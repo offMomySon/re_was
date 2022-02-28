@@ -47,6 +47,6 @@ public class EntryPointConfig {
     }
 
     private static EntryPointConfig create() {
-        return new Config<>(EntryPointConfig.class, path).create();
+        return Util.createConfig(path, EntryPointConfig.class);
     }
 }

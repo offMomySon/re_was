@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import util.Util;
 
 import java.util.Set;
 
@@ -40,6 +41,6 @@ public class DownloadConfig {
     }
 
     private static DownloadConfig create() {
-        return new Config<>(DownloadConfig.class, path).create();
+        return Util.createConfig(path, DownloadConfig.class);
     }
 }
