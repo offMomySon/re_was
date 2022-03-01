@@ -1,5 +1,6 @@
-import config.EntryPointConfig;
+import config.entrypoint.EntryPointConfig;
 import content.TargetPath;
+import content.factory.EasterEggMessageFactory;
 import content.factory.WelcomePageMessageFactory;
 import content.factory.resource.DirectoryMessageFactory;
 import content.factory.resource.FileMessageFactory;
@@ -52,6 +53,7 @@ public class Server {
     public void start() {
         BiFunction<Path, TargetPath, AbstractMessageFactory> workerFactoryCreator = (request, targetPath) -> new CompositeAbstractMessageFactory(List.of(
                 new WelcomePageMessageFactory(request),
+                new EasterEggMessageFactory(request),
                 new DirectoryMessageFactory(targetPath),
                 new FileMessageFactory(targetPath),
                 new NotFoundMessageFactory(targetPath)

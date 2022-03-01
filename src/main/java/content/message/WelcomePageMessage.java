@@ -1,6 +1,10 @@
 package content.message;
 
-import config.*;
+import config.download.DownloadConfig;
+import config.download.DownloadInfoAtIp;
+import config.download.DownloadRate;
+import config.entrypoint.EntryPointConfig;
+import config.thread.ThreadConfig;
 
 public class WelcomePageMessage extends Message {
     private static final DownloadRate NOT_EXIST_DOWNLOAD_RATE = null;

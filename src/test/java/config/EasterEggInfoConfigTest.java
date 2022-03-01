@@ -6,52 +6,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class EasterEggInfoConfigTest {
-
-    @DisplayName("default message 를 가져옵니다.")
+    @DisplayName("EasterEggInfo Config 자신의 object 를 성성합니다.")
     @Test
-    void test1() {
+    void test4() {
         //given
-        EasterEggConfig easterEggConfig = new EasterEggConfig();
-
         //when
-        String actual = easterEggConfig.getDefaultMessage();
+        Throwable actual = Assertions.catchThrowable(() -> EasterEggConfig.create());
 
         //then
         Assertions.assertThat(actual)
-                .isNotNull()
-                .isNotBlank()
-                .isNotEmpty();
-    }
-
-    @DisplayName("delicious easter egg message 를 가져옵니다.")
-    @Test
-    void test2() {
-        //given
-        EasterEggConfig easterEggConfig = new EasterEggConfig();
-
-        //when
-        String actual = easterEggConfig.getDeliciousEggMessage();
-
-        //then
-        Assertions.assertThat(actual)
-                .isNotNull()
-                .isNotEmpty()
-                .isNotBlank();
-    }
-
-    @DisplayName("special easter egg message 를 가져옵니다.")
-    @Test
-    void test3() {
-        //given
-        EasterEggConfig easterEggConfig = new EasterEggConfig();
-
-        //when
-        String actual = easterEggConfig.getSpecialEasterEggMessage();
-
-        //then
-        Assertions.assertThat(actual)
-                .isNotNull()
-                .isNotEmpty()
-                .isNotBlank();
+                .isNull();
     }
 }

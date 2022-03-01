@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class HttpHeader {
@@ -13,7 +15,15 @@ public class HttpHeader {
     private final Map<String, HttpHeaderElement> httpHeaderElements;
 
     public HttpHeader(@NonNull Map<String, HttpHeaderElement> httpHeaderElements) {
-        this.httpHeaderElements = Collections.unmodifiableMap(httpHeaderElements);
+        this.httpHeaderElements = httpHeaderElements;
+    }
+
+    public static HttpHeader create(@NonNull List<HttpHeaderElement> httpHeaderElements) {
+        Map<String, HttpHeaderElement> value = httpHeaderElements.stream().collect(Collectors.toMap(
+                HttpHeaderElement::getKey, Function.identity(), (it1, it2) -> it1)
+        );
+
+        return new HttpHeader(value);
     }
 
     public int getContentLength() {
@@ -38,7 +48,7 @@ public class HttpHeader {
         }
 
         public HttpHeader build() {
-            return new HttpHeader(null);
+            return HttpHeader.create(httpHeaderElements);
         }
     }
 }

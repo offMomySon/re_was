@@ -1,19 +1,36 @@
 package config.easteregg;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.extern.slf4j.Slf4j;
+import util.Util;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
+
+@Slf4j
 public class EasterEggConfig {
-    private static final String DEFAULT_MESSAGE = "default 이스터 에그 메세지입니다.";
-    private static final String DELICIOUS_EASTER_EGG_MESSAGE = "맛있는 부활절 계란.";
-    private static final String SPECIAL_EASTER_EGG_MESSAGE = "특별한 이스터 에그 입니다.";
+    public static final EasterEggConfig instance = create();
 
-    public String getDefaultMessage() {
-        return DEFAULT_MESSAGE;
+    private static final String path = "src/main/resources/config/easter_egg.json";
+
+    private final List<EasterEggInfo> easterEggInfos;
+
+    @JsonCreator
+    private EasterEggConfig(@JsonProperty("easterEggs") List<EasterEggInfo> easterEggInfos) {
+        this.easterEggInfos = Collections.unmodifiableList(easterEggInfos);
     }
 
-    public String getDeliciousEggMessage() {
-        return DELICIOUS_EASTER_EGG_MESSAGE;
+    public static EasterEggConfig create() {
+        if (Files.notExists(Path.of(path))) {
+            throw new RuntimeException("path 가 존재하지 않습니다.");
+        }
+        return Util.createConfig(path, EasterEggConfig.class);
     }
 
-    public String getSpecialEasterEggMessage() {
-        return SPECIAL_EASTER_EGG_MESSAGE;
+    public List<EasterEggInfo> getEasterEggInfos() {
+        return easterEggInfos;
     }
 }

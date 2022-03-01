@@ -1,9 +1,8 @@
-package restriction;
+package repository.restriction;
 
 
-import config.DownloadConfig;
-import config.DownloadInfoAtIp;
-import config.DownloadRate;
+import config.download.DownloadConfig;
+import config.download.DownloadInfoAtIp;
 import lombok.NonNull;
 
 import java.util.Collections;

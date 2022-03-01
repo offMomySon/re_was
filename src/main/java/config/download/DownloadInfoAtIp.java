@@ -1,4 +1,4 @@
-package config;
+package config.download;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,6 +27,6 @@ public class DownloadInfoAtIp {
                             @JsonProperty("restrictedFileExtension") Set<String> restrictedFileExtension) {
         this.ip = ip;
         this.downloadRate = downloadRate;
-        this.restrictedFileExtension = Collections.unmodifiableSet(restrictedFileExtension);
+        this.restrictedFileExtension = restrictedFileExtension;
     }
 }

@@ -1,6 +1,6 @@
 package content;
 
-import config.DownloadConfig;
+import config.download.DownloadConfig;
 import config.RootPath;
 import lombok.NonNull;
 

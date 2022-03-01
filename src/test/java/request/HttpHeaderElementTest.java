@@ -24,20 +24,6 @@ class HttpHeaderElementTest {
         testValues(value);
     }
 
-    @DisplayName("value 값에 공백이 존재하면 예외가 발생합니다.")
-    @ParameterizedTest
-    @ValueSource(strings = {"value1, value2", "value1,    value2", "value1,value2 ", " value1,value2"})
-    void test2_1(String _values) {
-        //given
-        //when
-        Throwable throwable = Assertions.catchThrowable(() -> HttpHeaderElement.from("key1:" + _values));
-
-        //then
-        Assertions.assertThat(throwable)
-                .isNotNull()
-                .isInstanceOf(HttpHeaderElementException.class);
-    }
-
     //값 조회
     @DisplayName("모든 value 들을 가져와야 합니다.")
     @ParameterizedTest

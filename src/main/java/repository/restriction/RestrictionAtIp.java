@@ -1,4 +1,4 @@
-package restriction;
+package repository.restriction;
 
 import lombok.NonNull;
 
@@ -13,6 +13,6 @@ public class RestrictionAtIp {
         this.count = count;
         this.period = period;
     }
-    
+
 
 }

@@ -1,4 +1,4 @@
-package config;
+package config.entrypoint;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

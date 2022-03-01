@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class EasterEggInfoMessageTest {
 
     @DisplayName("이스터에그 메세지를 생성합니다.")
@@ -45,7 +43,7 @@ class EasterEggInfoMessageTest {
         String url = "aaa";
 
         Message easterEggMessage = new EasterEggMessage(url) {
-            
+
             @Override
             public String create() {
                 if (url.equals("aaa")) {
