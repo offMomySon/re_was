@@ -2,6 +2,7 @@ package config.easteregg;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -53,7 +54,7 @@ class EasterEggMapInfoTest {
                 .isEqualTo(expect);
     }
 
-    @DisplayName("content 를 생성한 그대로 가져와야 합니다.")
+    @DisplayName("content 를 정상적으로 가져와야합니다.")
     @ParameterizedTest
     @ValueSource(strings = {"first", "second", "third"})
     void test3(String content) {
@@ -65,7 +66,9 @@ class EasterEggMapInfoTest {
 
         //then
         Assertions.assertThat(actual)
-                .isEqualTo(content);
+                .isNotNull()
+                .isNotBlank()
+                .isNotEmpty();
     }
 }
 

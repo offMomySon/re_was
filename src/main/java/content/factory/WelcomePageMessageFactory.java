@@ -1,6 +1,6 @@
 package content.factory;
 
-import config.EntryPointConfig;
+import config.entrypoint.EntryPointConfig;
 import content.message.Message;
 import content.message.WelcomePageMessage;
 

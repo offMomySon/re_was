@@ -1,0 +1,16 @@
+{
+  "easterEggs": [
+    {
+      "url": "/test1",
+      "content": "defaultEasterEgg"
+    },
+    {
+      "url": "/test2",
+      "content": "deliciousEasterEgg"
+    },
+    {
+      "url": "/test3",
+      "content": "specialEasterEgg"
+    }
+  ]
+}
