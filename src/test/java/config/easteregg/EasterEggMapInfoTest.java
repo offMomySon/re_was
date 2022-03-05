@@ -2,7 +2,6 @@ package config.easteregg;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -19,7 +18,7 @@ class EasterEggMapInfoTest {
     void test1(String url) {
         //given
         //when
-        Throwable actual = Assertions.catchException(() -> EasterEggInfo.ofJackSon(url, "temp message"));
+        Throwable actual = Assertions.catchException(() -> EasterEggInfo.ofJackSon(url, "temp message", "default"));
 
         //then
         Assertions.assertThat(actual)
@@ -31,7 +30,7 @@ class EasterEggMapInfoTest {
     @ValueSource(strings = {"/t1/..", "/t1/t2/..", "/t1/t2/t3/../.."})
     void test2(String url) {
         //given
-        EasterEggInfo easterEggMapInfo = EasterEggInfo.ofJackSon(url, "temp message");
+        EasterEggInfo easterEggMapInfo = EasterEggInfo.ofJackSon(url, "temp message", "default");
 
         //TODO
         // 이 테스트는 getUrl 이 canonical 값을 전달하기 위한 테스트.
@@ -59,7 +58,7 @@ class EasterEggMapInfoTest {
     @ValueSource(strings = {"first", "second", "third"})
     void test3(String content) {
         //given
-        EasterEggInfo easterEggMapInfo = EasterEggInfo.ofJackSon("/temp", content);
+        EasterEggInfo easterEggMapInfo = EasterEggInfo.ofJackSon("/temp", content, "default");
 
         //when
         String actual = easterEggMapInfo.getContent();
@@ -69,6 +68,32 @@ class EasterEggMapInfoTest {
                 .isNotNull()
                 .isNotBlank()
                 .isNotEmpty();
+    }
+
+    @DisplayName("대소문자에 상관없이, 유효한 EasterEggType 이면 정상적으로 생성합니다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"default", "Default", "DEFAULT", "event", "Event", "eVent", "special", "specIal", "SPECIAL"})
+    void test4(String type) {
+        //given
+        //when
+        Throwable actual = Assertions.catchThrowable(() -> EasterEggInfo.ofJackSon("/", "content", type));
+
+        //then
+        Assertions.assertThat(actual)
+                .isNull();
+    }
+
+    @DisplayName("EasterEggType 이 아닌 string 이 들어오면 exception 이 발생합니다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"default ", "event ", "special ", "notType", "abcdType", "awsomeType"})
+    void test5(String type) {
+        //given
+        //when
+        Throwable actual = Assertions.catchThrowable(() -> EasterEggInfo.ofJackSon("/", "content", type));
+
+        //then
+        Assertions.assertThat(actual)
+                .isNotNull();
     }
 }
 

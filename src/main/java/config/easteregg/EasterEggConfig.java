@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.extern.slf4j.Slf4j;
 import util.Util;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,9 +22,6 @@ public class EasterEggConfig {
     }
 
     public static EasterEggConfig create() {
-        if (Files.notExists(Path.of(path))) {
-            throw new RuntimeException("path 가 존재하지 않습니다.");
-        }
         return Util.createConfig(path, EasterEggConfig.class);
     }
 
