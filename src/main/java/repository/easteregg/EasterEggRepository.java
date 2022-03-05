@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,17 +24,20 @@ public class EasterEggRepository {
     }
 
     private static EasterEggRepository create() {
-        List<EasterEggInfo> _easterEggInfos = EasterEggConfig.instance.getEasterEggInfos();
+        List<EasterEggInfo> easterEggInfos = EasterEggConfig.instance.getEasterEggInfos();
 
-        Map<Path, EasterEggInfo> easterEggInfos = _easterEggInfos.stream().collect(Collectors.toMap(
+        Map<Path, EasterEggInfo> value = easterEggInfos.stream().collect(Collectors.toMap(
                 EasterEggInfo::getUrl, Function.identity(), (it1, it2) -> it1
         ));
 
-        return new EasterEggRepository(easterEggInfos);
+        return new EasterEggRepository(value);
     }
 
-    public EasterEggInfo find(Path path) {
-        return easterEggInfos.getOrDefault(path, EasterEggInfo.EMPTY_EASTER_EGG);
+    public Optional<EasterEggInfo> find(Path path) {
+        if (isExist(path)) {
+            return Optional.of(easterEggInfos.get(path));
+        }
+        return Optional.empty();
     }
 
     public Boolean isExist(Path path) {

@@ -1,14 +1,10 @@
 package content.factory;
 
-import config.easteregg.EasterEggInfo;
 import content.message.Message;
-import content.message.SimpleMessage;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import repository.easteregg.EasterEggRepository;
 import util.Util;
 
 import java.nio.file.Path;
@@ -34,7 +30,7 @@ class EasterEggMessageFactoryTest {
                 .isTrue();
     }
 
-    @DisplayName("path 가 존재하지 않으면 false 값이 출력되야 합니다.")
+    @DisplayName("easter egg 의 path 가 아니면, false 값이 출력되야 합니다.")
     @ParameterizedTest
     @ValueSource(strings = {"/not_exist_path"})
     void test2(String _path) {
@@ -50,7 +46,7 @@ class EasterEggMessageFactoryTest {
                 .isFalse();
     }
 
-    @DisplayName("path 가 존재하면 message 를 생성해야 합니다.")
+    @DisplayName("easter egg 의 path 이면 message 를 생성해야 합니다.")
     @ParameterizedTest
     @ValueSource(strings = {"/test1", "/test2", "/test3"})
     void test3(String _path) {
@@ -67,8 +63,7 @@ class EasterEggMessageFactoryTest {
                 .isNotNull();
     }
 
-
-    @DisplayName("path 가 존재하지 않으면 message 생성시 exception 이 발생합니다.")
+    @DisplayName("easter egg 의 path 가 아니면 exception 이 발생합니다.")
     @ParameterizedTest
     @ValueSource(strings = {"/not_exist_dir"})
     void test4(String _path) {

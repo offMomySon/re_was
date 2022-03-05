@@ -3,14 +3,12 @@ package repository.easteregg;
 import config.easteregg.EasterEggInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import util.Util;
 
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 class EasterEggRepositoryTest {
 
@@ -28,12 +26,11 @@ class EasterEggRepositoryTest {
         Path path = Util.normalizePath(Path.of(_path));
 
         //when
-        EasterEggInfo actual = easterEggRepository.find(path);
+        Optional<EasterEggInfo> actual = easterEggRepository.find(path);
 
         //then
         Assertions.assertThat(actual)
-                .isNotNull()
-                .isNotEqualTo(EasterEggInfo.EMPTY_EASTER_EGG);
+                .isNotEmpty();
     }
 
     @DisplayName("path 에 해당하는 easter egg 를 찾지 못하면, EMPTY easter egg 를 가져옵니다.")
@@ -46,12 +43,11 @@ class EasterEggRepositoryTest {
         Path path = Util.normalizePath(Path.of(_path));
 
         //when
-        EasterEggInfo actual = easterEggRepository.find(path);
+        Optional<EasterEggInfo> actual = easterEggRepository.find(path);
 
         //then
         Assertions.assertThat(actual)
-                .isNotNull()
-                .isEqualTo(EasterEggInfo.EMPTY_EASTER_EGG);
+                .isEmpty();
     }
 
     @DisplayName("path 에 해당하는 easter egg 가 존재하면 true 값을 가져옵니다.")

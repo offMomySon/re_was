@@ -19,10 +19,8 @@ public class EasterEggMessageFactory implements AbstractMessageFactory {
 
     @Override
     public Message createMessage() {
-        if (!isSupport()) {
-            throw new RuntimeException("지원하지 않는 path 입니다. path = '" + path + "'");
-        }
-        EasterEggInfo easterEggInfo = easterEggRepository.find(path);
+        EasterEggInfo easterEggInfo = easterEggRepository.find(path)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 path 입니다. path = '" + path + "'"));
 
         return new SimpleMessage(easterEggInfo.getContent());
     }

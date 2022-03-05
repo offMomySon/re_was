@@ -1,14 +1,17 @@
 {
   "easterEggs": [
     {
+      "type": "default",
       "url": "/test1",
       "content": "defaultEasterEgg"
     },
     {
+      "type": "event",
       "url": "/test2",
       "content": "deliciousEasterEgg"
     },
     {
+      "type": "special",
       "url": "/test3",
       "content": "specialEasterEgg"
     }
