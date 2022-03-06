@@ -11,7 +11,7 @@ import java.util.Optional;
 
 class EasterEggRepositoryTest {
 
-    // TODO
+    // TODO 1
     // easter_egg.json 의 데이터와 find 를 검증하기 위한 데이터가 일치해야한다.
     // 데이터를 파편화 할 수 밖에 없다. -> 어떻게 하지?
     // 1. 코드로 가져오는 방법.

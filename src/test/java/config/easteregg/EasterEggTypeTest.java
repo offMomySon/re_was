@@ -33,7 +33,7 @@ class EasterEggTypeTest {
                 .isNotNull();
     }
 
-    // TODO
+    // TODO 2
     //  enum 은 이렇게 프로토타입 만들면 되는지?
 //    @Test
 //    void proto() {

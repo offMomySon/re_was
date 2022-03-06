@@ -9,11 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-// Todo
-// 컨셉이란걸 디테일하게 이해 못하겠다. 어떤 특성을 가져야 컨셉이지?
-
-// 책임 - 데이터 성격.
-// 컨셉 - root path 에 대한 정보를 가진다.
 @Getter
 public class RootPath {
     private final Path value;

@@ -12,9 +12,6 @@ import java.util.Set;
 
 @Slf4j
 @Getter
-// TODO
-// 책임 - 데이터 성격
-// 컨셉 - 다운로드 설정에 대한 주기, 제한들에 대한 데이터 정보를 가진다..
 public class DownloadConfig {
     private static final String path = "src/main/resources/config/download.json";
 

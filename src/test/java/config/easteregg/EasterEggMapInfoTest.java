@@ -39,12 +39,6 @@ class EasterEggMapInfoTest {
         //given
         EasterEggInfo easterEggMapInfo = EasterEggInfo.ofJackSon(url, "temp message", "default");
 
-        //TODO
-        // 이 테스트는 getUrl 이 canonical 값을 전달하기 위한 테스트.
-        // 그래서 getCanonicalFile 메서드를 사용함.
-        // 다른 방법으로 테스트 고민해본 것은, Path.normalizePath 를 사용해서 동일한지 비교하는 방법.
-        // EasterEggMapInfo 의 url 에 저장되어있는 url 은
-        // Path.normalizePath 를 거치고 데이터가 저장 되기 때문에 같은 로직을 타는 테스트가 되서 효용성이 없다고 생각되는데.
         Path expect = null;
         try {
             expect = new File(url).getCanonicalFile().toPath();
