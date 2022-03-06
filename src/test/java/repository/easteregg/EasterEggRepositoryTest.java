@@ -1,6 +1,5 @@
 package repository.easteregg;
 
-import config.easteregg.EasterEggInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,7 +25,7 @@ class EasterEggRepositoryTest {
         Path path = Util.normalizePath(Path.of(_path));
 
         //when
-        Optional<EasterEggInfo> actual = easterEggRepository.find(path);
+        Optional<EasterEgg> actual = easterEggRepository.find(path);
 
         //then
         Assertions.assertThat(actual)
@@ -43,7 +42,7 @@ class EasterEggRepositoryTest {
         Path path = Util.normalizePath(Path.of(_path));
 
         //when
-        Optional<EasterEggInfo> actual = easterEggRepository.find(path);
+        Optional<EasterEgg> actual = easterEggRepository.find(path);
 
         //then
         Assertions.assertThat(actual)

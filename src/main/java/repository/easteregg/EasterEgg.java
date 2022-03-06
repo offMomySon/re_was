@@ -7,12 +7,5 @@ public abstract class EasterEgg {
         this.content = content;
     }
 
-    abstract String createContent();
-
-    public String getContent() {
-
-        return createContent();
-    }
-
-
+    public abstract String createContent();
 }
