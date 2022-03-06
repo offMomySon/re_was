@@ -3,6 +3,10 @@ package config.easteregg;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
+import repository.easteregg.DefaultEasterEgg;
+import repository.easteregg.EasterEgg;
+import repository.easteregg.EventEasterEgg;
+import repository.easteregg.SpecialEasterEgg;
 import util.Util;
 
 import java.nio.file.Path;
@@ -31,7 +35,7 @@ public class EasterEggInfo {
                                           @NonNull @JsonProperty("type") String type) {
         Path path = Path.of(url);
         EasterEggType easterEggType = EasterEggType.parse(type);
-        
+
         return new EasterEggInfo(path, content, easterEggType);
     }
 
@@ -41,6 +45,19 @@ public class EasterEggInfo {
 
     public String getContent() {
         return String.format(contentFormat, dateFormat.format(new Date()), content);
+    }
+
+    //TODO
+    // 더 좋은 방법 생각해봐야함.
+    public EasterEgg toEasterEgg() {
+        switch (type) {
+            case EVENT:
+                return new EventEasterEgg(content);
+            case SPECIAL:
+                return new SpecialEasterEgg(content);
+            default:
+                return new DefaultEasterEgg(content);
+        }
     }
 
     @Override

@@ -10,30 +10,28 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class EasterEggRepository {
     public static final EasterEggRepository instance = create();
 
-    private final Map<Path, EasterEggInfo> easterEggInfos;
+    private final Map<Path, EasterEgg> easterEggInfos;
 
-    private EasterEggRepository(@NonNull Map<Path, EasterEggInfo> easterEggInfos) {
+    private EasterEggRepository(@NonNull Map<Path, EasterEgg> easterEggInfos) {
         this.easterEggInfos = Collections.unmodifiableMap(easterEggInfos);
     }
 
     private static EasterEggRepository create() {
         List<EasterEggInfo> easterEggInfos = EasterEggConfig.instance.getEasterEggInfos();
 
-        Map<Path, EasterEggInfo> value = easterEggInfos.stream().collect(Collectors.toMap(
-                EasterEggInfo::getUrl, Function.identity(), (it1, it2) -> it1
-        ));
+        Map<Path, EasterEgg> value = easterEggInfos.stream().collect(
+                Collectors.toMap(EasterEggInfo::getUrl, it -> it.toEasterEgg(), (it1, it2) -> it1));
 
         return new EasterEggRepository(value);
     }
 
-    public Optional<EasterEggInfo> find(Path path) {
+    public Optional<EasterEgg> find(Path path) {
         if (isExist(path)) {
             return Optional.of(easterEggInfos.get(path));
         }

@@ -1,9 +1,9 @@
 package content.factory;
 
-import config.easteregg.EasterEggInfo;
 import content.message.Message;
 import content.message.SimpleMessage;
 import lombok.NonNull;
+import repository.easteregg.EasterEgg;
 import repository.easteregg.EasterEggRepository;
 
 import java.nio.file.Path;
@@ -19,10 +19,10 @@ public class EasterEggMessageFactory implements AbstractMessageFactory {
 
     @Override
     public Message createMessage() {
-        EasterEggInfo easterEggInfo = easterEggRepository.find(path)
+        EasterEgg easterEgg = easterEggRepository.find(path)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 path 입니다. path = '" + path + "'"));
 
-        return new SimpleMessage(easterEggInfo.getContent());
+        return new SimpleMessage(easterEgg.createContent());
     }
 
     @Override
