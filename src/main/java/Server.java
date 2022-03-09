@@ -1,16 +1,16 @@
 import config.entrypoint.EntryPointConfig;
 import content.TargetPath;
-import content.factory.EasterEggMessageFactory;
+import content.factory.AbstractMessageFactory;
+import content.factory.CompositeAbstractMessageFactory;
 import content.factory.WelcomePageMessageFactory;
 import content.factory.resource.DirectoryMessageFactory;
 import content.factory.resource.FileMessageFactory;
 import content.factory.resource.NotFoundMessageFactory;
-import request.HttpRequest;
+import content.message.Message;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import content.message.Message;
-import content.factory.CompositeAbstractMessageFactory;
-import content.factory.AbstractMessageFactory;
+import repository.easteregg.EasterEggRepository;
+import request.HttpRequest;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -51,9 +51,11 @@ public class Server {
     }
 
     public void start() {
+        EasterEggRepository easterEggRepository = EasterEggRepository.create();
+
         BiFunction<Path, TargetPath, AbstractMessageFactory> workerFactoryCreator = (request, targetPath) -> new CompositeAbstractMessageFactory(List.of(
                 new WelcomePageMessageFactory(request),
-                new EasterEggMessageFactory(request),
+//                new EasterEggMessageFactory(request, easterEggRepository),
                 new DirectoryMessageFactory(targetPath),
                 new FileMessageFactory(targetPath),
                 new NotFoundMessageFactory(targetPath)
