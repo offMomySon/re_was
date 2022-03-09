@@ -3,21 +3,14 @@ package config.easteregg;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import repository.easteregg.DefaultEasterEgg;
-import repository.easteregg.EasterEgg;
-import repository.easteregg.EventEasterEgg;
-import repository.easteregg.SpecialEasterEgg;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.stream.Stream;
 
 
-class EasterEggMapInfoTest {
+class EasterEggInfoTest {
 
     @DisplayName("객체 생성시 url 이 상대경로를 벗어나면 exception 이 발생합니다.")
     @ParameterizedTest
@@ -68,7 +61,8 @@ class EasterEggMapInfoTest {
         Assertions.assertThat(actual)
                 .isNotNull()
                 .isNotBlank()
-                .isNotEmpty();
+                .isNotEmpty()
+                .contains(content);
     }
 
     @DisplayName("대소문자에 상관없이, 유효한 EasterEggType 이면 정상적으로 생성합니다.")
@@ -96,29 +90,29 @@ class EasterEggMapInfoTest {
         Assertions.assertThat(actual)
                 .isNotNull();
     }
-
-    private static Stream<Arguments> provideTypeAndClazz() { // argument source method
-        return Stream.of(
-                Arguments.of("default", DefaultEasterEgg.class),
-                Arguments.of("event", EventEasterEgg.class),
-                Arguments.of("special", SpecialEasterEgg.class)
-        );
-    }
-
-    @DisplayName("EasterEggInfo type 에 따라 EasterEgg  로 변환 가능해야합니다.")
-    @ParameterizedTest
-    @MethodSource("provideTypeAndClazz")
-    void test6(String type, Class<EasterEgg> clazz) {
-        //given
-        EasterEggInfo easterEggInfo = EasterEggInfo.ofJackSon("/url", "content", type);
-
-        //when
-        EasterEgg actual = easterEggInfo.toEasterEgg();
-
-        //
-        Assertions.assertThat(actual)
-                .isNotNull()
-                .isInstanceOf(clazz);
-    }
+//
+//    private static Stream<Arguments> provideTypeAndClazz() { // argument source method
+//        return Stream.of(
+//                Arguments.of("default", DefaultEasterEgg.class),
+//                Arguments.of("event", EventEasterEgg.class),
+//                Arguments.of("special", SpecialEasterEgg.class)
+//        );
+//    }
+//
+//    @DisplayName("EasterEggInfo type 에 따라 EasterEgg  로 변환 가능해야합니다.")
+//    @ParameterizedTest
+//    @MethodSource("provideTypeAndClazz")
+//    void test6(String type, Class<EasterEgg> clazz) {
+//        //given
+//        EasterEggInfo easterEggInfo = EasterEggInfo.ofJackSon("/url", "content", type);
+//
+//        //when
+//        EasterEgg actual = easterEggInfo.toEasterEgg();
+//
+//        //
+//        Assertions.assertThat(actual)
+//                .isNotNull()
+//                .isInstanceOf(clazz);
+//    }
 }
 

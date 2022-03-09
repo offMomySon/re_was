@@ -14,31 +14,29 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class EasterEggRepository {
-    public static final EasterEggRepository instance = create();
+    private final Map<Path, String> contents;
 
-    private final Map<Path, EasterEgg> easterEggInfos;
-
-    private EasterEggRepository(@NonNull Map<Path, EasterEgg> easterEggInfos) {
-        this.easterEggInfos = Collections.unmodifiableMap(easterEggInfos);
+    private EasterEggRepository(@NonNull Map<Path, String> contents) {
+        this.contents = Collections.unmodifiableMap(contents);
     }
 
-    private static EasterEggRepository create() {
+    public static EasterEggRepository create() {
         List<EasterEggInfo> easterEggInfos = EasterEggConfig.instance.getEasterEggInfos();
 
-        Map<Path, EasterEgg> value = easterEggInfos.stream().collect(
-                Collectors.toMap(EasterEggInfo::getUrl, it -> it.toEasterEgg(), (it1, it2) -> it1));
+        Map<Path, String> value = easterEggInfos.stream().collect(
+                Collectors.toMap(EasterEggInfo::getUrl, it -> it.getContent(), (it1, it2) -> it1));
 
         return new EasterEggRepository(value);
     }
 
-    public Optional<EasterEgg> find(Path path) {
+    public Optional<String> find(Path path) {
         if (isExist(path)) {
-            return Optional.of(easterEggInfos.get(path));
+            return Optional.of(contents.get(path));
         }
         return Optional.empty();
     }
 
     public Boolean isExist(Path path) {
-        return easterEggInfos.containsKey(path);
+        return contents.containsKey(path);
     }
 }

@@ -10,11 +10,6 @@ import java.nio.file.Path;
 
 class UtilTest {
 
-    //TODO
-    // file path 를 row data 로 가져와야하는게 너무 지엽적인 테스티 인것 같다.
-    // 1. Config class 에서 가져오거나 ( public open 해야함. ) - 테케를 위해서 코드 수정되서 안좋다.
-    // 2. 아니면 지금 테케 처럼 데이터 셋에 파일의 실제 데이터를 박아넣어야 할 것 같다. - 아니면 검증할 방법이 없는데?
-
     @DisplayName("파일을 정상적으로 class 파일로 읽어 옵니다.")
     @ParameterizedTest
     @ValueSource(strings = {"src/main/resources/config/download.json"})
