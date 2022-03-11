@@ -1,7 +1,7 @@
 package repository.easteregg;
 
 import config.easteregg.EasterEggConfig;
-import config.easteregg.EasterEggInfo;
+import config.easteregg.property.EasterEggProperty;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class EasterEggRepository {
@@ -21,12 +20,13 @@ public class EasterEggRepository {
     }
 
     public static EasterEggRepository create() {
-        List<EasterEggInfo> easterEggInfos = EasterEggConfig.instance.getEasterEggInfos();
+        List<EasterEggProperty> easterEggProperties = EasterEggConfig.instance.getEasterEggInfos();
 
-        Map<Path, String> value = easterEggInfos.stream().collect(
-                Collectors.toMap(EasterEggInfo::getUrl, it -> it.getContent(), (it1, it2) -> it1));
+//        Map<Path, String> value = easterEggInfos.stream().collect(
+//                Collectors.toMap(EasterEggInfo::getUrl, it -> it.getContent(), (it1, it2) -> it1));
 
-        return new EasterEggRepository(value);
+        return null;
+//        return new EasterEggRepository(value);
     }
 
     public Optional<String> find(Path path) {
