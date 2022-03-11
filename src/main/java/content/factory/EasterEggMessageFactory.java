@@ -1,5 +1,6 @@
 package content.factory;
 
+import config.easteregg.EasterEgg;
 import content.message.Message;
 import content.message.SimpleMessage;
 import lombok.NonNull;
@@ -18,10 +19,10 @@ public class EasterEggMessageFactory implements AbstractMessageFactory {
 
     @Override
     public Message createMessage() {
-        String content = easterEggRepository.find(path)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 path 입니다. path = '" + path + "'"));
+        EasterEgg easterEgg = easterEggRepository.find(path)
+                .orElseThrow(() -> new RuntimeException("easter egg 에 존재하지 않는 path 입니다. path = '" + path + "'"));
 
-        return new SimpleMessage(content);
+        return new SimpleMessage(easterEgg.getContent());
     }
 
     @Override

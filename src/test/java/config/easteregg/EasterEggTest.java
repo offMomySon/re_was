@@ -11,20 +11,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 class EasterEggTest {
-
-    @DisplayName("객체 생성시 상대경로를 벗어난 url 을 받으면 exception 이 발생합니다.")
-    @ParameterizedTest
-    @ValueSource(strings = {"/..", "/depth1/../..", "/depth1/depth2/../../.."})
-    void test1(String url) {
-        //given
-        //when
-        Throwable actual = Assertions.catchThrowable(() -> new EasterEgg(Path.of(url), "content"));
-
-        //then
-        Assertions.assertThat(actual)
-                .isNotNull();
-    }
-
     @DisplayName("객체가 정상적으로 생성됩니다.")
     @Test
     void test2() {
@@ -37,7 +23,11 @@ class EasterEggTest {
                 .isNull();
     }
 
-    @DisplayName("url 을 canonical value 로 가져와야 합니다.")
+    //TODO
+    // 객체의 생성의 도메인적 부분이긴한데,
+    // 내부적으로 util 속성을 함수가 역할 하는 것인데 얘도 검사해야할까?
+    // 객체의 책임 관점에서 보면 해야하는게 맞는것 같다.
+    @DisplayName("path 을 canonical value 로 가져와야 합니다.")
     @ParameterizedTest
     @ValueSource(strings = {"/t1/..", "/t1/t2/..", "/t1/t2/t3/../.."})
     void test3(String url) {
@@ -57,6 +47,20 @@ class EasterEggTest {
         //then
         Assertions.assertThat(actual)
                 .isEqualTo(expect);
+    }
+
+    @DisplayName("path 를 정상적으로 가져옵니다.")
+    @Test
+    void test3() {
+        //given
+        EasterEgg easterEgg = new EasterEgg(Path.of("/testURL"), "content");
+
+        //when
+        Throwable actual = Assertions.catchThrowable(() -> easterEgg.getURL());
+
+        //then
+        Assertions.assertThat(actual)
+                .isNull();
     }
 
     @DisplayName("content 를 정상적으로 가져옵니다.")

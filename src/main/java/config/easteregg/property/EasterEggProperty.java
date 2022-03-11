@@ -16,6 +16,10 @@ public class EasterEggProperty {
     private final String content;
 
     public EasterEggProperty(@NonNull Path url, @NonNull String content, @NonNull EasterEggType type) {
+        if (content.isBlank() || content.isEmpty()) {
+            throw new RuntimeException("content 가 비어있습니다. content = '" + content + "'");
+        }
+
         this.url = Util.normalizePath(url);
         this.content = content;
         this.type = type;

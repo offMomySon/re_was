@@ -32,11 +32,10 @@ class EasterEggConfigTest {
         List<EasterEggProperty> easterEggProperties = createEasterEggInfo(type);
 
         //when
-        Throwable actual = Assertions.catchException(() -> new EasterEggConfig(easterEggProperties, List.of(new EasterEggTemplateProperty(type, "test format"))));
+        Throwable actual = Assertions.catchException(() -> EasterEggConfig.ofJackSon(easterEggProperties, List.of(new EasterEggTemplateProperty(type, "test format"))));
 
         //then
         Assertions.assertThat(actual)
                 .isNull();
     }
-
 }
