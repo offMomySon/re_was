@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import config.easteregg.property.EasterEggProperty;
 import config.easteregg.property.EasterEggTemplateProperty;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import util.Util;
 
@@ -20,33 +21,33 @@ public class EasterEggConfig {
     private static final String path = "src/main/resources/config/easter_egg.json";
 
     private final List<EasterEggProperty> easterEggProperties;
-    private final List<EasterEggTemplateProperty> easterEggTemplateProperties;
-    private final List<EasterEgg> easterEggs;
+    private final Map<EasterEggType, EasterEggTemplateProperty> easterEggTemplateProperties;
+
+    private EasterEggConfig(@NonNull List<EasterEggProperty> easterEggProperties,
+                            @NonNull Map<EasterEggType, EasterEggTemplateProperty> easterEggTemplateProperties) {
+        this.easterEggProperties = Collections.unmodifiableList(easterEggProperties);
+        this.easterEggTemplateProperties = Collections.unmodifiableMap(easterEggTemplateProperties);
+    }
 
     @JsonCreator
+    public static EasterEggConfig ofJackSon(@NonNull @JsonProperty("easterEggs") List<EasterEggProperty> easterEggProperties,
+                                            @NonNull @JsonProperty("template") List<EasterEggTemplateProperty> _easterEggTemplateProperties) {
 
-    public EasterEggConfig(@JsonProperty("easterEggs") List<EasterEggProperty> easterEggProperties,
-                           @JsonProperty("template") List<EasterEggTemplateProperty> easterEggTemplateProperties) {
-        this.easterEggProperties = Collections.unmodifiableList(easterEggProperties);
-        this.easterEggTemplateProperties = Collections.unmodifiableList(easterEggTemplateProperties);
-
-        Map<EasterEggType, EasterEggTemplateProperty> easterEggTemplates = easterEggTemplateProperties.stream()
+        Map<EasterEggType, EasterEggTemplateProperty> easterEggTemplateProperties = _easterEggTemplateProperties.stream()
                 .collect(Collectors.toMap(EasterEggTemplateProperty::getEasterEggType, Function.identity(), (it, it2) -> it));
 
-        Function<EasterEggProperty, EasterEgg> easterEggCreator = it -> {
-            EasterEggTemplateProperty easterEggTemplateProperty = easterEggTemplates.get(it.getType());
-            return new EasterEgg(it.getUrl(), String.format(easterEggTemplateProperty.getFormat(), it.getContent()));
-        };
-
-        easterEggs = easterEggProperties.stream().map(easterEggCreator).collect(Collectors.toList());
-
+        return new EasterEggConfig(easterEggProperties, easterEggTemplateProperties);
     }
 
     public static EasterEggConfig create() {
         return Util.createConfig(path, EasterEggConfig.class);
     }
 
-    public List<EasterEggProperty> getEasterEggInfos() {
+    public List<EasterEggProperty> getEasterEggProperties() {
         return easterEggProperties;
+    }
+
+    public Map<EasterEggType, EasterEggTemplateProperty> getEasterEggTemplateProperties() {
+        return easterEggTemplateProperties;
     }
 }

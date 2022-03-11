@@ -3,15 +3,27 @@ package config.easteregg;
 import config.easteregg.property.EasterEggProperty;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-
+// TODO
+// 생성의 책임은 EasterEggProperty 가 가지고 있는것이니
+// EasterEggType 을 잘못 받았을때 객체 생성이 안되는 것도 테스트 해야하나?..
 class EasterEggPropertyTest {
+    private static String provideType() {
+        return EasterEggType.DEFAULT.getValue();
+    }
+
+    private static EasterEggProperty createEasterEggProperty() {
+        return EasterEggProperty.ofJackSon("/temp", "content", provideType());
+    }
 
     @DisplayName("객체 생성시 url 이 상대경로를 벗어나면 exception 이 발생합니다.")
     @ParameterizedTest
@@ -20,6 +32,21 @@ class EasterEggPropertyTest {
         //given
         //when
         Throwable actual = Assertions.catchException(() -> EasterEggProperty.ofJackSon(url, "temp message", "default"));
+
+        //then
+        Assertions.assertThat(actual)
+                .isNotNull();
+    }
+
+    @DisplayName("객체 생성시 빈 content 를 받으면 exception 이 발생합니다.")
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    @ValueSource(strings = {" "})
+    void test1_1(String content) {
+        //given
+        //when
+        Throwable actual = Assertions.catchThrowable(() -> EasterEggProperty.ofJackSon("/temp", content, "default"));
 
         //then
         Assertions.assertThat(actual)
@@ -47,73 +74,51 @@ class EasterEggPropertyTest {
         Assertions.assertThat(actual)
                 .isEqualTo(expect);
     }
-//
-//    @DisplayName("content 를 정상적으로 가져와야합니다.")
-//    @ParameterizedTest
-//    @ValueSource(strings = {"first", "second", "third"})
-//    void test3(String content) {
-//        //given
-//        EasterEggInfo easterEggMapInfo = EasterEggInfo.ofJackSon("/temp", content, "default");
-//
-//        //when
-//        String actual = easterEggMapInfo.getContent();
-//
-//        //then
-//        Assertions.assertThat(actual)
-//                .isNotNull()
-//                .isNotBlank()
-//                .isNotEmpty()
-//                .contains(content);
-//    }
 
-    @DisplayName("대소문자에 상관없이, 유효한 EasterEggType 이면 정상적으로 생성합니다.")
-    @ParameterizedTest
-    @ValueSource(strings = {"default", "Default", "DEFAULT", "event", "Event", "eVent", "special", "specIal", "SPECIAL"})
-    void test4(String type) {
+    // TODO
+    //  null 도 발생안하고 자료형을 하나만 가져오는데 의미가 있나?..
+    @Test
+    @DisplayName("content 를 정상적으로 가져와야합니다.")
+    void test3() {
         //given
+        EasterEggProperty easterEggMapInfo = createEasterEggProperty();
+
         //when
-        Throwable actual = Assertions.catchThrowable(() -> EasterEggProperty.ofJackSon("/", "content", type));
+        String actual = easterEggMapInfo.getContent();
+
+        //then
+        Assertions.assertThat(actual)
+                .isNotNull()
+                .isNotBlank()
+                .isNotEmpty();
+    }
+
+    @DisplayName("Path 를 정상적으로 가져와야합니다.")
+    @Test
+    void test4() {
+        //given
+        EasterEggProperty easterEggProperty = createEasterEggProperty();
+
+        //when
+        Throwable actual = Assertions.catchThrowable(() -> easterEggProperty.getUrl());
 
         //then
         Assertions.assertThat(actual)
                 .isNull();
     }
 
-    @DisplayName("EasterEggType 이 아닌 string 이 들어오면 exception 이 발생합니다.")
-    @ParameterizedTest
-    @ValueSource(strings = {"default ", "event ", "special ", "notType", "abcdType", "awsomeType"})
-    void test5(String type) {
+    @DisplayName("EasterEgg type 을 정상적으로 가져와야합니다.")
+    @Test
+    void test5() {
         //given
+        EasterEggProperty easterEggMapInfo = createEasterEggProperty();
+
         //when
-        Throwable actual = Assertions.catchThrowable(() -> EasterEggProperty.ofJackSon("/", "content", type));
+        EasterEggType actual = easterEggMapInfo.getType();
 
         //then
         Assertions.assertThat(actual)
                 .isNotNull();
     }
-//
-//    private static Stream<Arguments> provideTypeAndClazz() { // argument source method
-//        return Stream.of(
-//                Arguments.of("default", DefaultEasterEgg.class),
-//                Arguments.of("event", EventEasterEgg.class),
-//                Arguments.of("special", SpecialEasterEgg.class)
-//        );
-//    }
-//
-//    @DisplayName("EasterEggInfo type 에 따라 EasterEgg  로 변환 가능해야합니다.")
-//    @ParameterizedTest
-//    @MethodSource("provideTypeAndClazz")
-//    void test6(String type, Class<EasterEgg> clazz) {
-//        //given
-//        EasterEggInfo easterEggInfo = EasterEggInfo.ofJackSon("/url", "content", type);
-//
-//        //when
-//        EasterEgg actual = easterEggInfo.toEasterEgg();
-//
-//        //
-//        Assertions.assertThat(actual)
-//                .isNotNull()
-//                .isInstanceOf(clazz);
-//    }
 }
 
