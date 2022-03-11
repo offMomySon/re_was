@@ -1,19 +1,33 @@
 {
   "easterEggs": [
     {
-      "type": "default",
       "url": "/test1",
+      "type": "default",
       "content": "축하드립니다. 상은 없습니다."
     },
     {
-      "type": "event",
       "url": "/test2",
+      "type": "event",
       "content": "맛있는 계란을 보여드리겠습니다. \uD83E\uDD5A"
     },
     {
-      "type": "special",
       "url": "/test3",
+      "type": "special",
       "content": "특별한 작업을 할 예정입니다. 무엇인지는 모릅니다."
+    }
+  ],
+  "template": [
+    {
+      "type": "default",
+      "format": "이것은 default easter egg!, {%s}"
+    },
+    {
+      "type": "event",
+      "format": "이것은 event easter egg!, {%s}"
+    },
+    {
+      "type": "special",
+      "format": "이것은 special easter egg!, {%s}"
     }
   ]
 }

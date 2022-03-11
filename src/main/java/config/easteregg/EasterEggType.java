@@ -4,16 +4,14 @@ import java.util.Arrays;
 
 public enum EasterEggType {
 
-    DEFAULT("default", "이것은 default easter egg!, {%s}"),
-    EVENT("event", "이것은 event easter egg!, {%s}"),
-    SPECIAL("special", "이것은 special easter egg!, {%s}");
+    DEFAULT("default"),
+    EVENT("event"),
+    SPECIAL("special");
 
     private final String value;
-    private final String format;
 
-    EasterEggType(String value, String format) {
+    EasterEggType(String value) {
         this.value = value;
-        this.format = format;
     }
 
     public String getValue() {
@@ -26,10 +24,4 @@ public enum EasterEggType {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("일치하는 Event type 이 아닙니다."));
     }
-
-    public String toContent(String content) {
-        return String.format(format, content);
-    }
-
-
 }
