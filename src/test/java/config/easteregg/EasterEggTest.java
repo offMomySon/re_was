@@ -13,7 +13,7 @@ import java.nio.file.Path;
 class EasterEggTest {
     @DisplayName("객체가 정상적으로 생성됩니다.")
     @Test
-    void test2() {
+    void test0() {
         //given
         //when
         Throwable actual = Assertions.catchThrowable(() -> new EasterEgg(Path.of("/testURL"), "content"));
@@ -22,15 +22,11 @@ class EasterEggTest {
         Assertions.assertThat(actual)
                 .isNull();
     }
-
-    //TODO
-    // 객체의 생성의 도메인적 부분이긴한데,
-    // 내부적으로 util 속성을 함수가 역할 하는 것인데 얘도 검사해야할까?
-    // 객체의 책임 관점에서 보면 해야하는게 맞는것 같다.
+    
     @DisplayName("path 을 canonical value 로 가져와야 합니다.")
     @ParameterizedTest
     @ValueSource(strings = {"/t1/..", "/t1/t2/..", "/t1/t2/t3/../.."})
-    void test3(String url) {
+    void test2(String url) {
         //given
         Path expect = null;
         try {

@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class EasterEggRepository {
     private static final Map<EasterEggType, EasterEggTemplateProperty> easterEggTemplateProperties = EasterEggConfig.instance.getEasterEggTemplateProperties();
     private static final List<EasterEggProperty> easterEggProperties = EasterEggConfig.instance.getEasterEggProperties();
+
     private static final Function<EasterEggProperty, EasterEgg> easterEggCreator = it -> {
         EasterEggTemplateProperty easterEggTemplateProperty = easterEggTemplateProperties.get(it.getType());
         return new EasterEgg(it.getUrl(), String.format(easterEggTemplateProperty.getFormat(), it.getContent()));
@@ -27,7 +28,7 @@ public class EasterEggRepository {
 
     private final Map<Path, EasterEgg> easterEggs;
 
-    private EasterEggRepository(@NonNull Map<Path, EasterEgg> easterEggs) {
+    public EasterEggRepository(@NonNull Map<Path, EasterEgg> easterEggs) {
         this.easterEggs = Collections.unmodifiableMap(easterEggs);
     }
 

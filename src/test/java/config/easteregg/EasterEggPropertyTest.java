@@ -13,9 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-// TODO
-// 생성의 책임은 EasterEggProperty 가 가지고 있는것이니
-// EasterEggType 을 잘못 받았을때 객체 생성이 안되는 것도 테스트 해야하나?..
 class EasterEggPropertyTest {
     private static String provideType() {
         return EasterEggType.DEFAULT.getValue();
@@ -25,6 +22,10 @@ class EasterEggPropertyTest {
         return EasterEggProperty.ofJackSon("/temp", "content", provideType());
     }
 
+    // TODO
+    // 객체의 생성의 도메인적 부분이긴한데,
+    // 내부적으로 util 속성을 함수가 역할 하는 것인데 얘도 검사해야할까?
+    // 객체의 책임 관점에서 보면 해야하는게 맞는것 같다.
     @DisplayName("객체 생성시 url 이 상대경로를 벗어나면 exception 이 발생합니다.")
     @ParameterizedTest
     @ValueSource(strings = {"/..", "/depth1/../..", "/depth1/depth2/../../.."})
